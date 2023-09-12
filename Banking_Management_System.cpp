@@ -36,8 +36,18 @@ class SavingAccount: public Bank
 
 void accept( )
 {
-    cout<<"Enter Account Number : ";
-    cin>>acno;
+
+      while(true)
+        {
+            cout<<"Enter Account Number : ";
+            cin>>acno;
+            if(isValidAccountNumber(acno))
+                break;
+
+            else
+                cout << "Account number is INVALID . Please Enter Valid 4 digit valid account number. " << endl;
+
+        }
 
     while(true)
     {
@@ -53,7 +63,7 @@ void accept( )
     while(true)
     {
         cout<<"Enter your PAN Number : ";
-        getline(cin, PAN_num);
+        cin >> PAN_num;
          
         if(!isValidPanCardNo(PAN_num))
         {
@@ -67,7 +77,7 @@ void accept( )
        while(true)
     {
         cout<<"Enter your AADHAR Number : ";
-        getline(cin, AADHAR);
+        cin >> AADHAR;
          
         if(!isValidAadhaarNumber(AADHAR))
         {
@@ -82,7 +92,7 @@ void accept( )
         while(true)
        {
             cout<<"Enter your Mobile Number : ";
-            getline(cin, Mobile_num);
+            cin >> Mobile_num;
             
             if(!isValidMobileNumber(Mobile_num))
             {
@@ -100,9 +110,9 @@ void accept( )
         cout<<"Enter Opening Balance : ";
         cin>>bal;
         if (isBalance(bal))
-        break;
+            break;
         else
-        cout<<"Opening Balance should be greater than 5000\n";
+            cout<<"Opening Balance should be greater than 5000\n";
 
     }
 
@@ -141,7 +151,7 @@ void withdraw(double amount) {
 
    void deposit(double amount) {
         bal += amount;
-        cout<<"deposited sucessfully"<<endl;
+        cout<<"Deposited sucessfully"<<endl;
     }
 
 
@@ -162,6 +172,9 @@ void withdraw(double amount) {
                 bal-=amt;
                 recipient.bal+=amt;
                 cout << "Tranfered " << amt << " from account " << acno << " to account " << recipient.acno << endl;
+              cout << "Sender Balance is with account number " << acno << " : " << bal << endl;
+            cout << "Recipient Balance is with account number " << recipient.acno << " : "  << recipient.bal << endl;
+
                 }
             else{
                 cout << "Invalid transfer amount or insufficient balance. " << endl;
@@ -188,7 +201,7 @@ class CurrentAccount: public Bank
     int acno;
     float bal;
     char holdername[20];
-    string PAN_num,AADHAR,Mobile_num;
+    string PAN_num, AADHAR,Mobile_num;
 
     public:
     CurrentAccount( )
@@ -198,8 +211,18 @@ class CurrentAccount: public Bank
 
     void accept( )
    {
-        cout<<"Enter Account Number ";
-        cin>>acno;
+        while(true)
+        {
+            cout<<"Enter Account Number : ";
+            cin>>acno;
+            if(isValidAccountNumber(acno))
+                break;
+
+            else
+                cout << "Account number is INVALID . Please Enter Valid 4 digit valid account number. " << endl;
+
+        }
+        
         while(true)
         {
             cout<<"Enter Name of Account Holder : ";
@@ -215,7 +238,7 @@ class CurrentAccount: public Bank
            while(true)
        {
             cout<<"Enter your PAN Number : ";
-            getline(cin, PAN_num);
+            cin>>PAN_num;
          
             if(!isValidPanCardNo(PAN_num))
             {
@@ -230,7 +253,7 @@ class CurrentAccount: public Bank
         while(true)
        {
             cout<<"Enter your AADHAR Number : ";
-            getline(cin, AADHAR);
+            cin >> AADHAR;
             
             if(!isValidAadhaarNumber(AADHAR))
             {
@@ -246,7 +269,7 @@ class CurrentAccount: public Bank
          while(true)
        {
             cout<<"Enter your Mobile Number : ";
-            getline(cin, Mobile_num);
+            cin >> Mobile_num;
             
             if(!isValidMobileNumber(Mobile_num))
             {
@@ -315,16 +338,26 @@ class CurrentAccount: public Bank
 
     void transferFund(CurrentAccount &recipient,double amt)
     {
+         if(isValidAccountNumber(acno) && isValidAccountNumber(recipient.acno)){
 
         if(amt>0 && bal>=amt)
         {
             bal-=amt;
             recipient.bal+=amt;
             cout << "Tranfered " << amt << " from account " << acno << " to account " << recipient.acno << endl;
+            cout << "Sender Balance is with account number " << acno << " : " << bal << endl;
+            cout << "Recipient Balance is with account number " << recipient.acno << " : "  << recipient.bal << endl;
         }
         else{
             cout << "Invalid transfer amount or insufficient balance. " << endl;
         }
+
+        }
+        else{
+                cout << "Account number is INVALID . Please Enter Valid 4 digit valid account number. " << endl;
+            }
+
+
 
 
     }
@@ -338,7 +371,26 @@ class CurrentAccount: public Bank
 int main()
 {
 int n,m;
-cout<<"Enter the number of records to be stored for CurrentAccount : "<<endl;
+
+
+cout<<"Enter the number of records to be added for Saving account : "<<endl;
+cin>>m;
+SavingAccount sa[m];
+
+for(int i=0;i<m;i++)
+{
+   sa[i].accept( );
+   cout << endl;
+}
+
+for(int i=0;i<m;i++)
+{
+   sa[i].display( );
+   cout << endl;
+}
+
+
+cout<<"Enter the number of records to be stored for Current Account : "<<endl;
 cin>>n;
 CurrentAccount ca[n];
 
@@ -352,22 +404,6 @@ for(int i=0;i<n;i++)
 for(int i=0;i<n;i++)
 {
    ca[i].display( );
-   cout << endl;
-}
-
-cout<<"Enter the number of records to be added for savingaccount : "<<endl;
-cin>>m;
-SavingAccount sa[m];
-
-for(int i=0;i<m;i++)
-{
-   sa[i].accept( );
-   cout << endl;
-}
-
-for(int i=0;i<m;i++)
-{
-   sa[i].display( );
    cout << endl;
 }
 
